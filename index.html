@@ -286,21 +286,21 @@
             margin-top: auto;
         }
 
-        /* 语言内容切换 */
-        [lang="en"] {
-            display: none;
-        }
-
-        [lang="zh"] {
+        /* 语言内容切换 - 修改后的选择器 */
+        .content-zh {
             display: block;
         }
-
-        html[lang="en"] [lang="en"] {
-            display: block;
-        }
-
-        html[lang="en"] [lang="zh"] {
+        
+        .content-en {
             display: none;
+        }
+        
+        body.lang-en .content-zh {
+            display: none;
+        }
+        
+        body.lang-en .content-en {
+            display: block;
         }
 
         /* 响应式设计 */
@@ -345,7 +345,7 @@
             <!-- 预留 logo 图片位置 -->
             <!-- 
             将 SVG 替换为以下代码:
-            <img class="logo-icon" src="Gemini 1-Click Summary logo.png" alt="Gemini 1-Click Summary Logo">
+            <img class="logo-icon" src="your-logo-image.png" alt="Gemini 1-Click Summary Logo">
             -->
             <img class="logo-icon" src="Gemini 1-Click Summary logo.png" alt="Gemini 1-Click Summary Logo">
                 <rect width="36" height="36" rx="6" fill="url(#logoGradient)" />
@@ -360,9 +360,9 @@
                 <button class="language-btn" data-lang="en">EN</button>
             </div>
             <!-- 下载按钮 - 中文版 -->
-            <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="download-button" lang="zh">下载</a>
+            <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="download-button content-zh">下载</a>
             <!-- 下载按钮 - 英文版 -->
-            <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="download-button" lang="en">Download</a>
+            <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="download-button content-en">Download</a>
         </div>
     </header>
 
@@ -387,21 +387,21 @@
         </div>
 
         <!-- 中文内容 -->
-        <div lang="zh">
+        <div class="content-zh">
             <h1>Gemini 1-Click Summary</h1>
             <h2>您的 AI 助手</h2>
-            <p>一键获取YouTube视频摘要 - 快速、简洁、高效。</p>
+            <p>一键总结YouTube视频 - 快速、简洁、高效。</p>
         </div>
 
         <!-- 英文内容 -->
-        <div lang="en">
+        <div class="content-en">
             <h1>Gemini 1-Click Summary</h1>
             <h2>Your AI Assistant</h2>
             <p>YouTube summary with one click - fast, clean, effortless.</p>
         </div>
 
         <!-- 中文按钮 -->
-        <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="chrome-button" lang="zh">
+        <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="chrome-button content-zh">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
                 <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
@@ -413,7 +413,7 @@
         </a>
 
         <!-- 英文按钮 -->
-        <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="chrome-button" lang="en">
+        <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="chrome-button content-en">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
                 <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
@@ -430,9 +430,9 @@
                 <div class="carousel-inner">
                     <!-- 
                     将下面的三个 carousel-item 中的图片标签替换为您自己的图片:
-                    <img src="YT- Summary01.jpg" alt="Gemini 1-Click Summary 功能演示 1">
-                    <img src="YT- Summary02.jpg" alt="Gemini 1-Click Summary 功能演示 2">
-                    <img src="YT- Summary03.jpg" alt="Gemini 1-Click Summary 功能演示 3">
+                    <img src="your-demo-image-1.png" alt="Gemini 1-Click Summary 功能演示 1">
+                    <img src="your-demo-image-2.png" alt="Gemini 1-Click Summary 功能演示 2">
+                    <img src="your-demo-image-3.png" alt="Gemini 1-Click Summary 功能演示 3">
                     
                     注意：图片尺寸应为 2537 × 1231 或保持相同比例
                     -->
@@ -470,16 +470,16 @@
     </main>
 
     <!-- 中文页脚 -->
-    <footer lang="zh">
-        <p>© 2025 Gemini 1-Click Summary</p>
+    <footer class="content-zh">
+        <p>© 2025 Gemini 1-Click Summary. 保留所有权利 | 隐私政策</p>
     </footer>
 
     <!-- 英文页脚 -->
-    <footer lang="en">
-        <p>© 2025 Gemini 1-Click Summary.</p>
+    <footer class="content-en">
+        <p>© 2025 Gemini 1-Click Summary. All rights reserved | Privacy Policy</p>
     </footer>
 
-    <!-- 轮播图脚本 -->
+    <!-- 轮播图与语言切换脚本 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 获取轮播图元素
@@ -553,14 +553,18 @@
                 button.addEventListener('click', function() {
                     const lang = this.getAttribute('data-lang');
                     
-                    // 更新 HTML 标签语言
-                    document.documentElement.lang = lang;
-                    
                     // 更新按钮状态
                     languageButtons.forEach(btn => {
                         btn.classList.remove('active');
                     });
                     this.classList.add('active');
+                    
+                    // 更新语言显示
+                    if (lang === 'en') {
+                        document.body.classList.add('lang-en');
+                    } else {
+                        document.body.classList.remove('lang-en');
+                    }
                 });
             });
         });
