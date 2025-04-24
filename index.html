@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Summarizer with Gemini - Online Free</title>
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            color: #202124;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 头部导航 */
+        header {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            height: 32px;
+            width: 32px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .language-toggle {
+            display: flex;
+            align-items: center;
+            background-color: #f1f3f4;
+            border-radius: 20px;
+            padding: 4px;
+            margin-right: 8px;
+        }
+
+        .language-btn {
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #5F6368;
+            transition: all 0.2s ease;
+        }
+
+        .language-btn.active {
+            background-color: #fff;
+            color: #202124;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-button {
+            background-color: #fff;
+            color: #202124;
+            border: 1px solid #dadce0;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-decoration: none;
+        }
+
+        .download-button:hover {
+            background-color: #f1f3f4;
+        }
+
+        /* 主要内容区 */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            width: 100%;
+            max-width: 1000px; /* 增加最大宽度以适应更大的图片 */
+        }
+
+        .brand-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .brand-icons img {
+            height: 40px;
+        }
+
+        .main-content h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #202124;
+        }
+
+        .main-content h2 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            color: #202124;
+        }
+
+        .main-content p {
+            font-size: 16px;
+            margin-bottom: 32px;
+            color: #5F6368;
+        }
+
+        .chrome-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            margin-bottom: 60px;
+        }
+
+        .chrome-button:hover {
+            background-color: #3367D6;
+        }
+
+        .chrome-button img {
+            margin-right: 8px;
+            height: 24px;
+            width: 24px;
+        }
+
+        .chrome-button span {
+            margin-right: 8px;
+        }
+
+        /* 轮播图样式 */
+        .demo-container {
+            width: 100%;
+            max-width: 1000px; /* 增加最大宽度 */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+            background-color: #fff;
+            margin: 0 auto;
+            position: relative;
+            /* 保持宽高比 2537:1231 */
+            aspect-ratio: 2537 / 1231;
+        }
+
+        .carousel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 300%; /* 三张图片 */
+            height: 100%;
+        }
+
+        .carousel-item {
+            width: 33.333%;
+            flex-shrink: 0;
+            height: 100%;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover; /* 确保图片填充整个容器 */
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-control.prev {
+            left: 15px;
+        }
+
+        .carousel-control.next {
+            right: 15px;
+        }
+
+        .carousel-control svg {
+            width: 24px;
+            height: 24px;
+            fill: #5F6368;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            border: none;
+        }
+
+        .carousel-indicator.active {
+            background-color: white;
+        }
+
+        /* 页脚 */
+        footer {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #5F6368;
+            margin-top: auto;
+        }
+
+        /* 语言内容切换 */
+        [lang="en"] {
+            display: none;
+        }
+
+        [lang="zh"] {
+            display: block;
+        }
+
+        html[lang="en"] [lang="en"] {
+            display: block;
+        }
+
+        html[lang="en"] [lang="zh"] {
+            display: none;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content h1 {
+                font-size: 36px;
+            }
+            
+            .main-content h2 {
+                font-size: 20px;
+            }
+
+            .header-right {
+                gap: 8px;
+            }
+            
+            .demo-container {
+                aspect-ratio: 2537 / 1231; /* 保持原始宽高比 */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .language-toggle {
+                margin-right: 4px;
+            }
+
+            .language-btn {
+                padding: 4px 6px;
+                font-size: 12px;
+            }
+
+            .download-button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">
+            <!-- 预留 logo 图片位置 -->
+            <!-- 
+            将 SVG 替换为以下代码:
+            <img class="logo-icon" src="Gemini 1-Click Summary logo.png" alt="Gemini 1-Click Summary Logo">
+            -->
+            <svg class="logo-icon" width="32" height="32" viewBox="0 0 36 36">
+                <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF0080" />
+                        <stop offset="100%" style="stop-color:#FF0000" />
+                    </linearGradient>
+                </defs>
+                <rect width="36" height="36" rx="6" fill="url(#logoGradient)" />
+                <path d="M18 9 L22 16 L30 17 L24 23 L26 31 L18 27 L10 31 L12 23 L6 17 L14 16 Z" fill="white" />
+            </svg>
+            <span class="logo-text">Gemini 1-Click Summary</span>
+        </a>
+        <div class="header-right">
+            <!-- 语言切换按钮 -->
+            <div class="language-toggle">
+                <button class="language-btn active" data-lang="zh">中文</button>
+                <button class="language-btn" data-lang="en">EN</button>
+            </div>
+            <!-- 下载按钮 - 中文版 -->
+            <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="download-button" lang="zh">下载</a>
+            <!-- 下载按钮 - 英文版 -->
+            <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="download-button" lang="en">Download</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- 品牌图标区域 -->
+        <div class="brand-icons">
+            <!-- 预留品牌图标位置 -->
+            <!-- 
+            将 SVG 替换为以下代码:
+            <img src="your-brand-icons.png" alt="Brand Icons">
+            -->
+            <svg width="240" height="40" viewBox="0 0 240 40">
+                <g fill="none">
+                    <circle cx="20" cy="20" r="18" fill="#4285F4" />
+                    <circle cx="60" cy="20" r="18" fill="#EA4335" />
+                    <circle cx="100" cy="20" r="18" fill="#FBBC05" />
+                    <circle cx="140" cy="20" r="18" fill="#34A853" />
+                    <circle cx="180" cy="20" r="18" fill="#8AB4F8" />
+                    <circle cx="220" cy="20" r="18" stroke="#EA4335" stroke-width="2" fill="none" />
+                </g>
+            </svg>
+        </div>
+
+        <!-- 中文内容 -->
+        <div lang="zh">
+            <h1>Gemini 1-Click Summary</h1>
+            <h2>您的 AI 助手</h2>
+            <p>一键获取YouTube视频摘要 - 快速、简洁、高效。</p>
+        </div>
+
+        <!-- 英文内容 -->
+        <div lang="en">
+            <h1>Gemini 1-Click Summary</h1>
+            <h2>Your AI Assistant</h2>
+            <p>YouTube summary with one click - fast, clean, effortless.</p>
+        </div>
+
+        <!-- 中文按钮 -->
+        <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="chrome-button" lang="zh">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+            </svg>
+            <span>添加至 Chrome</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="#FFFFFF">
+                <path d="M8 1.2l5.4 5.4H9.2v8H6.8v-8H2.6L8 1.2z" transform="rotate(90 8 8)"/>
+            </svg>
+        </a>
+
+        <!-- 英文按钮 -->
+        <a href="https://chromewebstore.google.com/detail/gemini-1-click-summary/ljanefmcdfmifjgcnihaojcbbmofakni?hl=en" class="chrome-button" lang="en">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+            </svg>
+            <span>Add to Chrome</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="#FFFFFF">
+                <path d="M8 1.2l5.4 5.4H9.2v8H6.8v-8H2.6L8 1.2z" transform="rotate(90 8 8)"/>
+            </svg>
+        </a>
+
+        <!-- 预留三张图片轮播位置 -->
+        <div class="demo-container">
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <!-- 
+                    将下面的三个 carousel-item 中的图片标签替换为您自己的图片:
+                    <img src="YT- Summary01.jpg" alt="Gemini 1-Click Summary 功能演示 1">
+                    <img src="YT- Summary02.jpg" alt="Gemini 1-Click Summary 功能演示 2">
+                    <img src="YT- Summary03.jpg" alt="Gemini 1-Click Summary 功能演示 3">
+                    
+                    注意：图片尺寸应为 2537 × 1231 或保持相同比例
+                    -->
+                    <div class="carousel-item">
+                        <img src="/api/placeholder/2537/1231" alt="Gemini 1-Click Summary 功能演示 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/api/placeholder/2537/1231" alt="Gemini 1-Click Summary 功能演示 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/api/placeholder/2537/1231" alt="Gemini 1-Click Summary 功能演示 3">
+                    </div>
+                </div>
+                
+                <!-- 轮播控制按钮 -->
+                <button class="carousel-control prev">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                    </svg>
+                </button>
+                <button class="carousel-control next">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                    </svg>
+                </button>
+                
+                <!-- 轮播指示器 -->
+                <div class="carousel-indicators">
+                    <button class="carousel-indicator active" data-slide="0"></button>
+                    <button class="carousel-indicator" data-slide="1"></button>
+                    <button class="carousel-indicator" data-slide="2"></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 中文页脚 -->
+    <footer lang="zh">
+        <p>© 2025 Gemini 1-Click Summary</p>
+    </footer>
+
+    <!-- 英文页脚 -->
+    <footer lang="en">
+        <p>© 2025 Gemini 1-Click Summary.</p>
+    </footer>
+
+    <!-- 轮播图脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取轮播图元素
+            const carousel = document.querySelector('.carousel');
+            const carouselInner = carousel.querySelector('.carousel-inner');
+            const prevButton = carousel.querySelector('.carousel-control.prev');
+            const nextButton = carousel.querySelector('.carousel-control.next');
+            const indicators = carousel.querySelectorAll('.carousel-indicator');
+            
+            // 当前幻灯片索引
+            let currentSlide = 0;
+            const slideCount = 3; // 三张图片
+            
+            // 更新轮播图位置
+            function updateCarousel() {
+                carouselInner.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+                
+                // 更新指示器
+                indicators.forEach((indicator, index) => {
+                    if (index === currentSlide) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 上一张
+            prevButton.addEventListener('click', function() {
+                currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+                updateCarousel();
+            });
+            
+            // 下一张
+            nextButton.addEventListener('click', function() {
+                currentSlide = (currentSlide + 1) % slideCount;
+                updateCarousel();
+            });
+            
+            // 指示器点击
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', function() {
+                    currentSlide = index;
+                    updateCarousel();
+                });
+            });
+            
+            // 自动轮播
+            let autoplayInterval = setInterval(function() {
+                currentSlide = (currentSlide + 1) % slideCount;
+                updateCarousel();
+            }, 5000); // 5秒切换一次
+            
+            // 鼠标悬停时暂停自动轮播
+            carousel.addEventListener('mouseenter', function() {
+                clearInterval(autoplayInterval);
+            });
+            
+            // 鼠标离开时恢复自动轮播
+            carousel.addEventListener('mouseleave', function() {
+                autoplayInterval = setInterval(function() {
+                    currentSlide = (currentSlide + 1) % slideCount;
+                    updateCarousel();
+                }, 5000);
+            });
+
+            // 语言切换功能
+            const languageButtons = document.querySelectorAll('.language-btn');
+            
+            languageButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // 更新 HTML 标签语言
+                    document.documentElement.lang = lang;
+                    
+                    // 更新按钮状态
+                    languageButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
